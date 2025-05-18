@@ -1,0 +1,9 @@
+\babel@toc {portuges}{}\relax 
+\beamer@sectionintoc {2}{Introdução}{3}{1}{1}
+\beamer@sectionintoc {3}{Mecânica Quântica}{8}{1}{2}
+\beamer@sectionintoc {4}{Translação}{16}{1}{3}
+\beamer@sectionintoc {5}{Vibração}{23}{1}{4}
+\beamer@sectionintoc {6}{Rotação}{27}{1}{5}
+\beamer@sectionintoc {7}{Níveis Eletrônicos}{35}{1}{6}
+\beamer@sectionintoc {8}{Gases Ideais}{38}{1}{7}
+\beamer@sectionintoc {9}{Equipartição de Energia}{42}{1}{8}

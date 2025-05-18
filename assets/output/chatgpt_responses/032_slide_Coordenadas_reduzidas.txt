@@ -1,0 +1,3 @@
+Title: Coordenadas reduzidas
+Section: Rotação
+Text: {Coordenadas reduzidas

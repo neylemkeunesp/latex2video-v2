@@ -1,0 +1,35 @@
+video:
+  format: "mp4"
+  resolution: "1920x1080"
+  fps: 30
+  transition_duration: 1.5
+  background_color: "#FFFFFF"
+
+# TTS configuration
+tts:
+  provider: "gtts"  # Options: "gtts" or "elevenlabs"
+  language: "pt"  # Language code for gTTS (Portuguese)
+  slow: false  # Whether to use slower speech rate for gTTS
+
+# Keep ElevenLabs config for backward compatibility
+elevenlabs:
+  api_key: ""
+#  voice_id: ""  # Sarah's voice ID from available voices
+  voice_id: "4BGVHcW2xjlsh3CQ2d0i"  # Ney's voice ID from available voices (updated for elevenlabs>=1.57.0)
+  model_id: "eleven_multilingual_v2"  # Better for Portuguese
+
+latex:
+  dpi: 300
+  image_format: "png"
+  math_scale: 1.2
+
+narration:
+  language: "pt-BR"
+  pace: 1.0  # Normal speaking pace
+  math_pause: 0.5  # Extra pause after mathematical expressions
+
+openai:
+  api_key: ""  # Add your OpenAI API key here
+  model: "gpt-4o"  # Model to use for script generation
+  temperature: 0.7  # Controls randomness (0.0 to 1.0)
+  max_tokens: 1000  # Maximum length of generated response

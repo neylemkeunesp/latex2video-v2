@@ -1,0 +1,20 @@
+# Poço de Potencial
+
+## Informação de Sequência
+- Este é o slide 12 de 49.
+- Slide anterior: "Poço de Potencial"
+- Este slide é uma continuação do slide anterior com o mesmo título.
+- Próximo slide: "Poço de Potencial"
+- O próximo slide é uma continuação deste slide com o mesmo título.
+
+[ATTENTION: This slide appears to have no content. It may be a transition slide or a slide meant for visual emphasis.]
+
+Previous slide title: "Poço de Potencial"
+Previous slide content summary: "Poço de Potencial..."
+
+Next slide title: "Poço de Potencial"
+Next slide content summary: "Poço de Potencial..."
+
+---
+
+Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Este slide parece estar vazio ou ter conteúdo mínimo. Por favor, crie uma narração de transição que conecte o slide anterior ao próximo slide de forma natural. A narração deve ser breve (2-3 frases) e servir como uma ponte entre os conceitos. Você pode mencionar que estamos passando para o próximo tópico ou que vamos explorar um novo conceito relacionado. Não invente conteúdo que não existe, apenas crie uma transição suave. O script deve ser adequado para narração em um vídeo educacional.

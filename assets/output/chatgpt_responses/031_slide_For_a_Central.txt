@@ -1,0 +1,3 @@
+Title: Força Central
+Section: Rotação
+Text: {Força Central

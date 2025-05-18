@@ -1,0 +1,12 @@
+# Mecânica Quântica
+
+## Informação de Sequência
+- Este é o slide 8 de 49.
+- Slide anterior: "Classes de Energia"
+- Próximo slide: "Equação de Schrödinger"
+
+Mecânica Quântica
+
+---
+
+Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Dê atenção especial às fórmulas matemáticas, explicando-as de maneira simples e compreensível. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. Limite-se apenas ao conteúdo que está explicitamente mostrado no slide. O script deve ser adequado para narração em um vídeo educacional.

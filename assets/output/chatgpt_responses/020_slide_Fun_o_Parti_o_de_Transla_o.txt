@@ -1,0 +1,3 @@
+Title: Função Partição de Translação
+Section: Translação
+Text: {Função Partição de Translação

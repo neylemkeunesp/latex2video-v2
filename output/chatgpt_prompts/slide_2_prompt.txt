@@ -1,0 +1,12 @@
+# Outline
+
+## Informação de Sequência
+- Este é o slide 2 de 49.
+- Slide anterior: "Title Page"
+- Próximo slide: "Introdução"
+
+Outline
+
+---
+
+Por favor, crie um script de narração para o slide de sumário/índice desta apresentação. Deve mencionar brevemente que vamos ver os tópicos principais da apresentação. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. O script deve ser adequado para narração em um vídeo educacional.

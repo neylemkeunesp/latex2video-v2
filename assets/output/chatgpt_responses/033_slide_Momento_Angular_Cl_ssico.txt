@@ -1,0 +1,3 @@
+Title: Momento Angular Clássico
+Section: Rotação
+Text: {Momento Angular Clássico

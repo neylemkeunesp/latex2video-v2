@@ -1,0 +1,12 @@
+# Title Page
+
+## Informação de Sequência
+- Este é o slide 1 de 49.
+- Próximo slide: "Outline"
+
+Título da Apresentação: Gases e Sólidos
+Autor: Ney Lemke
+
+---
+
+Por favor, crie um script de narração para o slide de título desta apresentação. Deve ser uma introdução breve e acolhedora que apresente o tema da apresentação. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. O script deve ser adequado para narração em um vídeo educacional.

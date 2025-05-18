@@ -1,0 +1,3 @@
+Title: Entropia
+Section: Gases Ideais
+Text: {Entropia

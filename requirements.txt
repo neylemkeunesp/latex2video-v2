@@ -1,0 +1,13 @@
+pdf2image
+python-latex
+elevenlabs>=1.57.0  # Updated to newer version with different API structure
+gtts>=2.3.2  # Google Text-to-Speech
+pillow==8.3.2  # Last version with ANTIALIAS
+moviepy==1.0.3
+pyyaml
+requests
+natsort>=8.0.0  # For natural sorting of filenames
+openai>=1.0.0  # For ChatGPT API access
+pydub # For audio manipulation in tests
+# ffmpeg is required for video assembly
+# Install with: sudo apt-get install ffmpeg (Linux) or brew install ffmpeg (macOS)

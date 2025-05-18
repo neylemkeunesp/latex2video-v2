@@ -1,0 +1,1 @@
+Continuando com nosso estudo sobre a função partição de translação, já compreendemos como ela se aplica em sistemas unidimensionais. Agora, vamos expandir nosso entendimento para sistemas tridimensionais. No próximo slide, exploraremos a dinâmica de uma partícula confinada em uma caixa 3D, um conceito fundamental para aprofundar nosso conhecimento em mecânica estatística.

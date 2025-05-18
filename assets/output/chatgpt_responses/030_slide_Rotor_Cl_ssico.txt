@@ -1,0 +1,3 @@
+Title: Rotor Clássico
+Section: Rotação
+Text: {Rotor Clássico

@@ -1,0 +1,3 @@
+Title: Equação de Schrödinger
+Section: Mecânica Quântica
+Text: {Equação de Schrödinger

@@ -1,0 +1,12 @@
+# Introdução
+
+## Informação de Sequência
+- Este é o slide 3 de 49.
+- Slide anterior: "Outline"
+- Próximo slide: "Mecânica Quântica"
+
+Introdução
+
+---
+
+Por favor, crie um script de narração para o slide de introdução/agenda desta apresentação. Deve apresentar brevemente os tópicos que serão abordados e preparar o espectador para o conteúdo. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. O script deve ser adequado para narração em um vídeo educacional.

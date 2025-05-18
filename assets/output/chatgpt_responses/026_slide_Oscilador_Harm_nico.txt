@@ -1,0 +1,3 @@
+Title: Oscilador Harmônico
+Section: Vibração
+Text: {Oscilador Harmônico
