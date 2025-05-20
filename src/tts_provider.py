@@ -26,25 +26,26 @@ except ImportError as e_gtts:
     logger.error(f"[TTS_PROVIDER_IMPORT] Failed to import gTTS: {e_gtts}. gTTS provider will not be available.", exc_info=True)
     for handler in logging.getLogger().handlers: handler.flush()
 
-# try:
-#     print("[TTS_PROVIDER_PRINT] Attempting to import ElevenLabs...")
-#     logger.info("[TTS_PROVIDER_IMPORT] Attempting to import ElevenLabs...")
-#     for handler in logging.getLogger().handlers: handler.flush()
-#     from elevenlabs import ElevenLabs, Voice, save # Keep specific imports if needed
-#     ELEVENLABS_AVAILABLE = True
-#     print("[TTS_PROVIDER_PRINT] ElevenLabs imported successfully.")
-#     logger.info("[TTS_PROVIDER_IMPORT] ElevenLabs imported successfully.")
-#     for handler in logging.getLogger().handlers: handler.flush()
-# except ImportError as e_eleven:
-#     print(f"[TTS_PROVIDER_PRINT] ElevenLabs import error: {e_eleven}")
-#     logger.warning(f"[TTS_PROVIDER_IMPORT] ElevenLabs import error: {e_eleven}. ElevenLabs provider will not be available.")
-#     for handler in logging.getLogger().handlers: handler.flush()
-# except Exception as e_eleven_other: # Catch other potential errors during import
-#     print(f"[TTS_PROVIDER_PRINT] An unexpected error occurred during ElevenLabs import: {e_eleven_other}")
-#     logger.error(f"[TTS_PROVIDER_IMPORT] An unexpected error occurred during ElevenLabs import: {e_eleven_other}", exc_info=True)
-#     for handler in logging.getLogger().handlers: handler.flush()
-print("[TTS_PROVIDER_PRINT] ElevenLabs import block is COMMENTED OUT for testing.")
-logger.info("[TTS_PROVIDER_IMPORT] ElevenLabs import block is COMMENTED OUT for testing. ELEVENLABS_AVAILABLE will remain False.")
+try:
+    print("[TTS_PROVIDER_PRINT] Attempting to import requests for ElevenLabs API...")
+    logger.info("[TTS_PROVIDER_IMPORT] Attempting to import requests for ElevenLabs API...")
+    for handler in logging.getLogger().handlers: handler.flush()
+    
+    # Use requests library instead of elevenlabs package
+    import requests
+    
+    ELEVENLABS_AVAILABLE = True
+    print("[TTS_PROVIDER_PRINT] Requests imported successfully for ElevenLabs API.")
+    logger.info("[TTS_PROVIDER_IMPORT] Requests imported successfully for ElevenLabs API.")
+    for handler in logging.getLogger().handlers: handler.flush()
+except ImportError as e_eleven:
+    print(f"[TTS_PROVIDER_PRINT] Requests import error: {e_eleven}")
+    logger.warning(f"[TTS_PROVIDER_IMPORT] Requests import error: {e_eleven}. ElevenLabs provider will not be available.")
+    for handler in logging.getLogger().handlers: handler.flush()
+except Exception as e_eleven_other: # Catch other potential errors during import
+    print(f"[TTS_PROVIDER_PRINT] An unexpected error occurred during requests import: {e_eleven_other}")
+    logger.error(f"[TTS_PROVIDER_IMPORT] An unexpected error occurred during requests import: {e_eleven_other}", exc_info=True)
+    for handler in logging.getLogger().handlers: handler.flush()
 
 
 class TTSProvider(ABC):
@@ -131,78 +132,116 @@ class GTTSProvider(TTSProvider):
             for handler in logging.getLogger().handlers: handler.flush()
 
 class ElevenLabsProvider(TTSProvider):
-    """ElevenLabs provider implementation."""
+    """ElevenLabs provider implementation using direct API calls."""
     
     def __init__(self, api_key: str, voice_id: str, model_id: str):
+        print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__ called. Voice ID: {voice_id}, Model ID: {model_id}")
         logger.info(f"[ElevenLabsProvider] Initializing with voice_id: {voice_id}, model_id: {model_id}")
         for handler in logging.getLogger().handlers: handler.flush()
 
         if not ELEVENLABS_AVAILABLE:
-            logger.error("[ElevenLabsProvider] ElevenLabs package is not installed or failed to import. Cannot initialize.")
-            raise ImportError("ElevenLabs package is not available. ElevenLabsProvider cannot be used.")
+            print("[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__: Requests library is NOT available!")
+            logger.error("[ElevenLabsProvider] Requests library is not available. Cannot initialize ElevenLabsProvider.")
+            raise ImportError("Requests library is not available. ElevenLabsProvider cannot be used.")
         
         self.api_key = api_key
         self.voice_id = voice_id
         self.model_id = model_id
-        self.client: Optional[Any] = None # Using Any for ElevenLabs client type
+        self.api_url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+        self.headers = {
+            "Accept": "audio/mpeg",
+            "Content-Type": "application/json",
+            "xi-api-key": api_key
+        }
 
+        # Test connection by making a simple request to the voices endpoint
         try:
-            logger.info("[ElevenLabsProvider] Attempting to create ElevenLabs client...")
-            for handler in logging.getLogger().handlers: handler.flush()
-            self.client = ElevenLabs(api_key=api_key) # Critical SDK call
-            logger.info("[ElevenLabsProvider] ElevenLabs client object created. Testing connection by listing voices...")
+            print("[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__: Testing connection to ElevenLabs API...")
+            logger.info("[ElevenLabsProvider] Testing connection to ElevenLabs API...")
             for handler in logging.getLogger().handlers: handler.flush()
             
-            # Test connection by listing voices (optional but good for diagnostics)
-            # This can be a network call and might fail
-            voices_list = self.client.voices.get_all()
-            logger.info(f"[ElevenLabsProvider] ElevenLabs client initialized successfully. Found {len(voices_list.voices)} voices.")
+            test_url = "https://api.elevenlabs.io/v1/voices"
+            response = requests.get(test_url, headers={"xi-api-key": api_key})
+            
+            if response.status_code == 200:
+                voices_data = response.json()
+                print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__: Connection successful. Found {len(voices_data.get('voices', []))} voices.")
+                logger.info(f"[ElevenLabsProvider] Connection successful. Found {len(voices_data.get('voices', []))} voices.")
+            else:
+                print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__: API test failed with status code {response.status_code}: {response.text}")
+                logger.error(f"[ElevenLabsProvider] API test failed with status code {response.status_code}: {response.text}")
+                raise Exception(f"API test failed with status code {response.status_code}: {response.text}")
+                
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider initialized. Voice ID: {self.voice_id}")
+            logger.info(f"[ElevenLabsProvider] Initialized ElevenLabs provider with voice_id: {voice_id}")
             for handler in logging.getLogger().handlers: handler.flush()
         except Exception as e:
-            logger.error(f"[ElevenLabsProvider] Failed to initialize ElevenLabs client or test connection: {e}", exc_info=True)
-            self.client = None # Ensure client is None on failure
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.__init__: Failed to test API connection: {e}")
+            logger.error(f"[ElevenLabsProvider] Failed to test API connection: {e}", exc_info=True)
             for handler in logging.getLogger().handlers: handler.flush()
             raise # Re-raise the exception to be caught by create_tts_provider
     
     def generate_audio(self, text: str, output_path: str) -> bool:
         """Generate audio using ElevenLabs API."""
+        print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio called for: {output_path}")
         logger.info(f"[ElevenLabsProvider] Attempting to generate audio for: {output_path}")
         for handler in logging.getLogger().handlers: handler.flush()
-
-        if not self.client:
-            logger.error("[ElevenLabsProvider] ElevenLabs client is not initialized. Cannot generate audio.")
-            return False
             
+        print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Text length: {len(text)} chars")
         logger.debug(f"[ElevenLabsProvider] Generating audio with ElevenLabs for text (len: {len(text)} chars): {text[:200]}...")
         
         try:
-            logger.info("[ElevenLabsProvider] Calling ElevenLabs text_to_speech.convert...")
-            for handler in logging.getLogger().handlers: handler.flush()
-            # ElevenLabs Python SDK v1+ handles SSML tags like <break> automatically
-            audio_data = self.client.text_to_speech.convert( # Renamed audio to audio_data
-                text=text,
-                voice_id=self.voice_id,
-                model_id=self.model_id
-            )
-            logger.info("[ElevenLabsProvider] text_to_speech.convert call successful.")
+            print("[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Calling ElevenLabs API...")
+            logger.info("[ElevenLabsProvider] Calling ElevenLabs API...")
             for handler in logging.getLogger().handlers: handler.flush()
             
+            # Prepare the request payload
+            payload = {
+                "text": text,
+                "model_id": self.model_id,
+                "voice_settings": {
+                    "stability": 0.5,
+                    "similarity_boost": 0.75
+                }
+            }
+            
+            # Make the API request
+            response = requests.post(self.api_url, json=payload, headers=self.headers)
+            
+            if response.status_code != 200:
+                print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: API request failed with status code {response.status_code}: {response.text}")
+                logger.error(f"[ElevenLabsProvider] API request failed with status code {response.status_code}: {response.text}")
+                return False
+            
+            print("[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: API request successful.")
+            logger.info("[ElevenLabsProvider] API request successful.")
+            for handler in logging.getLogger().handlers: handler.flush()
+            
+            # Create output directory if it doesn't exist
             output_dir = os.path.dirname(os.path.abspath(output_path))
             if not os.path.exists(output_dir):
+                print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Creating output directory: {output_dir}")
                 logger.info(f"[ElevenLabsProvider] Creating output directory: {output_dir}")
                 os.makedirs(output_dir, exist_ok=True)
             
+            # Save the audio data to the output file
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Saving audio to {output_path}...")
             logger.info(f"[ElevenLabsProvider] Saving audio to {output_path}...")
             for handler in logging.getLogger().handlers: handler.flush()
-            save(audio_data, output_path) # save is from elevenlabs import
             
+            with open(output_path, 'wb') as f:
+                f.write(response.content)
+            
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Audio successfully saved to {output_path}")
             logger.info(f"[ElevenLabsProvider] Audio successfully saved to {output_path}")
             return True
             
         except Exception as e:
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio: Exception: {e}")
             logger.error(f"[ElevenLabsProvider] ElevenLabs API error generating audio for {output_path}: {e}", exc_info=True)
             return False
         finally:
+            print(f"[TTS_PROVIDER_PRINT] ElevenLabsProvider.generate_audio finished for: {output_path}")
             for handler in logging.getLogger().handlers: handler.flush()
 
 def create_tts_provider(config: dict) -> Optional[TTSProvider]: # Return Optional[TTSProvider]
@@ -217,17 +256,16 @@ def create_tts_provider(config: dict) -> Optional[TTSProvider]: # Return Optiona
     logger.info(f"[create_tts_provider] Requested provider: {provider_name}")
     
     if provider_name == 'elevenlabs':
-        # This path should ideally not be taken if ELEVENLABS_AVAILABLE is False due to commented out import
+        # Check if the requests library is available for ElevenLabs API
         print("[TTS_PROVIDER_PRINT] create_tts_provider: ElevenLabs path selected by config.")
-        if not ELEVENLABS_AVAILABLE: # ELEVENLABS_AVAILABLE is now hardcoded to False
-            print("[TTS_PROVIDER_PRINT] create_tts_provider: ElevenLabs provider requested, but ELEVENLABS_AVAILABLE is False (import commented out). Falling back to gTTS.")
-            logger.error("[create_tts_provider] ElevenLabs provider requested, but ELEVENLABS_AVAILABLE is False. Falling back to gTTS if possible.")
+        if not ELEVENLABS_AVAILABLE: # ELEVENLABS_AVAILABLE is set based on requests import
+            print("[TTS_PROVIDER_PRINT] create_tts_provider: ElevenLabs provider requested, but requests library is not available. Falling back to gTTS.")
+            logger.error("[create_tts_provider] ElevenLabs provider requested, but requests library is not available. Falling back to gTTS if possible.")
             provider_name = 'gtts' 
         else:
-            # This 'else' block should not be reachable if the import is commented out.
-            # Keeping it for structural integrity, but it's effectively dead code.
-            print("[TTS_PROVIDER_PRINT] create_tts_provider: WARNING - ELEVENLABS_AVAILABLE is True despite import being commented. This is unexpected.")
-            logger.warning("[create_tts_provider] WARNING - ELEVENLABS_AVAILABLE is True despite import being commented. Proceeding with ElevenLabs config but expecting failure.")
+            # Using the requests library for ElevenLabs API
+            print("[TTS_PROVIDER_PRINT] create_tts_provider: Using requests library for ElevenLabs API.")
+            logger.info("[create_tts_provider] Using requests library for ElevenLabs API.")
             elevenlabs_config = config.get('elevenlabs', {})
             api_key = elevenlabs_config.get('api_key')
             voice_id = elevenlabs_config.get('voice_id') 
