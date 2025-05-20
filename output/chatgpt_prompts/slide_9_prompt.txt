@@ -6,6 +6,14 @@
 - Próximo slide: "Equação de Schrödinger"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+FORMULA: H\psi=E_i\psi
+FORMULA: \psi=\psi(x,y,z) e FORMULA: |\psi|^2 representa a probabilidade
+de encontrar a partícula em um ponto do espaço.
+FORMULA: H é o hamiltoniano (ou hamiltoniana) do sistema. Ele representa a
+energia do sistema. Por exemplo para uma partícula sob a ação de um
+potencial FORMULA: V(x) temos:
+FORMULA: H=\frac{p^2}{2m}+V(x)
+
 Equação de Schrödinger
 
 ---

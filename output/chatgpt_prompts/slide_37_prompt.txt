@@ -5,6 +5,8 @@
 - Slide anterior: "Níveis Eletrônicos"
 - Próximo slide: "Gases Ideais"
 
+FORMULA: q=\left[\frac{2 \pi m kT}{h^2} \right]^{3/2}V\left[ \frac{\pi^2IkT}{\sigma h^2}\right]\left[\frac{e^{-h\nu/2kT}}{1-e^{-h\nu/kT}}\right]
+
 Função Partição
 
 ---

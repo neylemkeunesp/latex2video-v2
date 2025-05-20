@@ -1,41 +1,53 @@
-import yaml
 import os
+import sys
+import yaml
+import logging
 from src.tts_provider import create_tts_provider
 
-def test_elevenlabs_provider():
-    """Test if ElevenLabs provider can be initialized and used."""
-    print("Loading configuration...")
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+def main():
+    """Test the ElevenLabs TTS provider."""
+    logger.info("Starting ElevenLabs TTS test")
     
     # Load configuration
     config_path = os.path.join('config', 'config.yaml')
-    with open(config_path, 'r') as f:
-        config = yaml.safe_load(f)
+    try:
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f)
+    except Exception as e:
+        logger.error(f"Failed to load configuration: {e}")
+        return
     
-    print("Creating TTS provider...")
+    # Force the provider to be ElevenLabs
+    config['tts']['provider'] = 'elevenlabs'
+    
     # Create TTS provider
-    provider = create_tts_provider(config)
+    tts_provider = create_tts_provider(config)
+    if not tts_provider:
+        logger.error("Failed to create ElevenLabs TTS provider")
+        return
     
-    if provider is None:
-        print("Failed to create TTS provider!")
-        return False
+    # Test text
+    test_text = "Este é um teste do provedor de síntese de voz ElevenLabs. Vamos verificar se está funcionando corretamente."
     
-    print(f"TTS provider created: {provider.__class__.__name__}")
+    # Output path
+    output_dir = os.path.join('output', 'elevenlabs_test')
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, 'test_audio.mp3')
     
-    # Test generating a short audio clip
-    test_text = "Este é um teste do provedor de voz ElevenLabs."
-    test_output_path = os.path.join('output', 'elevenlabs_test.mp3')
-    
-    print(f"Generating audio to {test_output_path}...")
-    success = provider.generate_audio(test_text, test_output_path)
+    # Generate audio
+    logger.info(f"Generating audio to {output_path}")
+    success = tts_provider.generate_audio(test_text, output_path)
     
     if success:
-        print(f"Audio successfully generated at {test_output_path}")
-        return True
+        logger.info(f"Successfully generated audio at {output_path}")
+        print(f"Audio file created at: {output_path}")
     else:
-        print("Failed to generate audio!")
-        return False
+        logger.error("Failed to generate audio")
+        print("Failed to generate audio. Check logs for details.")
 
 if __name__ == "__main__":
-    print("Testing ElevenLabs TTS provider...")
-    result = test_elevenlabs_provider()
-    print(f"Test {'passed' if result else 'failed'}!")
+    main()

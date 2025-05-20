@@ -5,6 +5,8 @@
 - Slide anterior: "Rotação"
 - Próximo slide: "Força Central"
 
+[IMAGEM: rotor]
+
 Rotor Clássico
 
 ---

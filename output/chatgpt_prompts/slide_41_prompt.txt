@@ -5,6 +5,13 @@
 - Slide anterior: "Energia Interna"
 - Próximo slide: "Equipartição de Energia"
 
+Consideramos neste caso gases formados por moléculas monoatômicas.
+FORMULA: S=k\ln\left( \frac{q^N}{N!}\right)+\frac{U}{T}=Nk\ln q-k(N\ln N -N)
+   +\frac{3}{2}Nk
+FORMULA: S=Nk\ln \left( \frac{qe^{5/2}}{N} \right)
+FORMULA: S=Nk\left[\left( \frac{2 \pi m kT}{h^2}\right) \left(\frac{e^{5/2}}{N}\right) V
+\right]
+
 Entropia
 
 ---

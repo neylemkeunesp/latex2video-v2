@@ -7,14 +7,19 @@
 - Próximo slide: "Partícula em uma Caixa 3D"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
-[ATTENTION: This slide appears to have no content. It may be a transition slide or a slide meant for visual emphasis.]
+FORMULA: H_x\psi_x=\epsilon_x
+FORMULA: H_y\psi_y=\epsilon_y
+FORMULA: H_z\psi_z=\epsilon_z
+Neste caso:
+FORMULA: H_x=-\frac{h^2}{8\pi^2 m}\left(\frac{\partial^2}{\partial x^2}\right)
+FORMULA: \psi(x,y,z)=\psi_x(x)\psi_y(y)\psi_z(z)
+FORMULA: \epsilon_{n_x,n_y,n_z}=\frac{h^2}{8 m}\left(  \frac{n_x^2}{a^2}+ 
+                                                \frac{n_y^2}{b^2}+
+                                                \frac{n_z^2}{c^2}
+                                              \right)
 
-Previous slide title: "Partícula em uma Caixa 3D"
-Previous slide content summary: "Partícula em uma Caixa 3D..."
-
-Next slide title: "Partícula em uma Caixa 3D"
-Next slide content summary: "Partícula em uma Caixa 3D..."
+Partícula em uma Caixa 3D
 
 ---
 
-Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Este slide parece estar vazio ou ter conteúdo mínimo. Por favor, crie uma narração de transição que conecte o slide anterior ao próximo slide de forma natural. A narração deve ser breve (2-3 frases) e servir como uma ponte entre os conceitos. Você pode mencionar que estamos passando para o próximo tópico ou que vamos explorar um novo conceito relacionado. Não invente conteúdo que não existe, apenas crie uma transição suave. O script deve ser adequado para narração em um vídeo educacional.
+Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Dê atenção especial às fórmulas matemáticas, explicando-as de maneira simples e compreensível. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. Limite-se apenas ao conteúdo que está explicitamente mostrado no slide. O script deve ser adequado para narração em um vídeo educacional.

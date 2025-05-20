@@ -5,6 +5,11 @@
 - Slide anterior: "Momento Angular Clássico"
 - Próximo slide: "Rotação"
 
+FORMULA: H\psi_l=\frac{L^2\psi}{2\mu R^2}=\epsilon\psi_l
+FORMULA: \epsilon_l=\frac{l(l+1)h^2}{8\pi^2I}
+FORMULA: l=0,1,2,\ldots
+FORMULA: q_{rot}=\sum_{l=0}^\infty (2l+1)e^{-\epsilon_l/kT}
+
 Rotor Quântico
 
 ---

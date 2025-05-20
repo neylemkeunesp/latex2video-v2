@@ -6,6 +6,13 @@
 - Próximo slide: "Partícula em uma Caixa 3D"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+FORMULA: -\frac{h^2}{8\pi^2m}\left( \frac{\partial^2}{\partial x^2}+
+                          \frac{\partial^2}{\partial y^2}+
+                          \frac{\partial^2}{\partial z^2}\right)
+\psi+{\cal V}(x,y,z)\psi=\epsilon\psi
+FORMULA: {\cal V}(x,y,z)=0 apenas no interior de uma caixa de lados FORMULA: a, FORMULA: b e FORMULA: c
+e infinito em todos pontos.
+
 Partícula em uma Caixa 3D
 
 ---

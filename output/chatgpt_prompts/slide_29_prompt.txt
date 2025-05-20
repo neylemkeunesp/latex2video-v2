@@ -5,6 +5,16 @@
 - Slide anterior: "Rotor Clássico"
 - Próximo slide: "Coordenadas reduzidas"
 
+FORMULA: H=\frac{p_1^2}{2 m_1}+\frac{p_2^2}{2 m_2}+V(|\vec{r_1}-\vec{r_2}|)
+tabular{c c}
+minipage{0.45}
+minipage&
+minipage{0.45}
+FORMULA: \vec{p_1}=m_1\vec{v_1} \quad \vec{p_2}=m_2 \vec{v_2}
+FORMULA: M=m_1+m_2
+minipage
+tabular
+
 Força Central
 
 ---

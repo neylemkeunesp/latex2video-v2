@@ -5,6 +5,11 @@
 - Slide anterior: "Vibração"
 - Próximo slide: "Molécula diatômica"
 
+FORMULA: -\frac{h^2}{8\pi^2m}\frac{d^2\psi (x)}{dx^ 2}+\frac{1}{2}k_sx^ 2\psi(x)=\epsilon_v\psi(x)
+FORMULA: \epsilon_v=h\nu(v+\frac{1}{2})
+FORMULA: \nu=(1/2\pi)(k_s/m)^{(1/2)} e FORMULA: v=0,1,2,\ldots
+[IMAGEM: oscilador]
+
 Oscilador Harmônico
 
 ---

@@ -5,6 +5,11 @@
 - Slide anterior: "Introdução"
 - Próximo slide: "Exemplo"
 
+- Níveis quantizados de energia evidências espectroscópicas
+- Absorção e emissão ocorre apenas em frequências bem definidas
+- FORMULA: \Delta\epsilon=h\nu
+- Constante de Planck FORMULA: h=6.626\times 10^{-34}J s
+
 Mecânica Quântica
 
 ---

@@ -7,14 +7,12 @@
 - Próximo slide: "Poço de Potencial"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
-[ATTENTION: This slide appears to have no content. It may be a transition slide or a slide meant for visual emphasis.]
+FORMULA: \frac{d^2 \psi}{dx^2}+K^2\psi=0
+FORMULA: K^2=\frac{8\pi^2 m \epsilon}{h^2}
+FORMULA: \psi(x)=A \sin Kx + B \cos K x
 
-Previous slide title: "Poço de Potencial"
-Previous slide content summary: "Poço de Potencial..."
-
-Next slide title: "Poço de Potencial"
-Next slide content summary: "Poço de Potencial..."
+Poço de Potencial
 
 ---
 
-Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Este slide parece estar vazio ou ter conteúdo mínimo. Por favor, crie uma narração de transição que conecte o slide anterior ao próximo slide de forma natural. A narração deve ser breve (2-3 frases) e servir como uma ponte entre os conceitos. Você pode mencionar que estamos passando para o próximo tópico ou que vamos explorar um novo conceito relacionado. Não invente conteúdo que não existe, apenas crie uma transição suave. O script deve ser adequado para narração em um vídeo educacional.
+Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Dê atenção especial às fórmulas matemáticas, explicando-as de maneira simples e compreensível. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. Limite-se apenas ao conteúdo que está explicitamente mostrado no slide. O script deve ser adequado para narração em um vídeo educacional.

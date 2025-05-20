@@ -5,6 +5,11 @@
 - Slide anterior: "Espectro de Radiação"
 - Próximo slide: "Mecânica Quântica"
 
+- Translacional
+- Rotacional
+- Vibracional
+- Excitação Eletrônica
+
 Classes de Energia
 
 ---

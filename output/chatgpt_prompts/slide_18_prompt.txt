@@ -6,14 +6,14 @@
 - Este slide é uma continuação do slide anterior com o mesmo título.
 - Próximo slide: "Partícula em uma Caixa 3D"
 
-[ATTENTION: This slide appears to have no content. It may be a transition slide or a slide meant for visual emphasis.]
+Se FORMULA: \theta<<1, o que é geralmente o caso para temperaturas
+proximas a temperatura ambiente. Podemos aproximar
+o somatório por uma integral.
+FORMULA: q_{trans}=\int_0^\infty e^{-(h^2/8mL^2 k T)n^2}dn=
+\left(\frac{2 \pi m kT}{h^2} \right)^{1/2}L
 
-Previous slide title: "Função Partição de Translação"
-Previous slide content summary: "Função Partição de Translação..."
-
-Next slide title: "Partícula em uma Caixa 3D"
-Next slide content summary: "Partícula em uma Caixa 3D..."
+Função Partição de Translação
 
 ---
 
-Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Este slide parece estar vazio ou ter conteúdo mínimo. Por favor, crie uma narração de transição que conecte o slide anterior ao próximo slide de forma natural. A narração deve ser breve (2-3 frases) e servir como uma ponte entre os conceitos. Você pode mencionar que estamos passando para o próximo tópico ou que vamos explorar um novo conceito relacionado. Não invente conteúdo que não existe, apenas crie uma transição suave. O script deve ser adequado para narração em um vídeo educacional.
+Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. Este slide é uma continuação do slide anterior com o mesmo título. Sua narração deve continuar naturalmente a partir do slide anterior, sem repetir a introdução ou o contexto já apresentado. Use frases de transição como 'Continuando...', 'Além disso...', 'Adicionalmente...', etc. Dê atenção especial às fórmulas matemáticas, explicando-as de maneira simples e compreensível. IMPORTANTE: Não inclua na narração fórmulas ou conceitos matemáticos que não estejam presentes neste slide. Limite-se apenas ao conteúdo que está explicitamente mostrado no slide. O script deve ser adequado para narração em um vídeo educacional.

@@ -5,6 +5,12 @@
 - Slide anterior: "Gases Ideais"
 - Próximo slide: "Energia Interna"
 
+FORMULA: q=q_1V
+FORMULA: Q=\frac{q^N}{N!}
+Usando Stirling temos que:
+FORMULA: F=-kT\ln Q=-kTN\ln \frac{eq}{N}
+FORMULA: p=-\left( \frac{\partial F}{\partial V} \right)_{T,N}=\frac{NkT}{V}
+
 Pressão
 
 ---

@@ -5,6 +5,10 @@
 - Slide anterior: "Pressão"
 - Próximo slide: "Entropia"
 
+FORMULA: U=NkT^2\left( \frac{\partial \ln q}{\partial T}\right)
+FORMULA: U=\frac{3}{2}NkT+NkT
+Além destes termos temos ainda os termos provenientes das vibrações.
+
 Energia Interna
 
 ---

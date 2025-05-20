@@ -6,6 +6,11 @@
 - Próximo slide: "Função Partição de Translação"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+FORMULA: q_{trans}=\sum_{n=1}^\infty e^{-\epsilon_n/KT}=
+           \sum_{n=1}^\infty e^{-n^2h^2/8mL^2kT}
+FORMULA: \theta_{trans}=\frac{h^2}{8 m L^2}
+FORMULA: q_{trans}=\sum_{n=1}^\infty  e^{-n^2\theta/T}
+
 Função Partição de Translação
 
 ---

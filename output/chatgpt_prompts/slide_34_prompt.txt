@@ -5,6 +5,16 @@
 - Slide anterior: "Rotor Quântico"
 - Próximo slide: "Níveis Eletrônicos"
 
+Para altas temperaturas temos que:
+FORMULA: q_{rot}=8\frac{\pi^2IkT}{\sigma h^2}
+onde  FORMULA: \sigma depende do número de orientações equivalentes das
+moléculas.
+description
+- [FORMULA: \sigma=1 ] moléculas diatômicas heteronucleares
+- [FORMULA: \sigma=2] moléculas diatômicas homonucleares
+- [FORMULA: \sigma=12] benzeno
+description
+
 Rotação
 
 ---

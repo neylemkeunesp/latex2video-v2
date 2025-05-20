@@ -6,6 +6,12 @@
 - Próximo slide: "Momento Angular Clássico"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+Em coordenadas esféricas temos:
+FORMULA: \vec{L}=\mu \vec{v}\times \vec{r}
+FORMULA: =\mu (\dot{\vec{r}}\vec{a_r}+r\dot{\theta}\vec{a_\theta}+r\sin \theta \dot{\phi}\vec{a_\phi})\times \vec{r}
+FORMULA: =\mu (r^2\dot{\theta}^2\vec{a_\phi}+r^2\sin \theta \dot{\phi}\vec{a_\theta})
+FORMULA: L^2=\mu^2r^4(\dot{\theta}^2+\sin^2 \theta\dot{\phi ^2})
+
 Momento Angular Clássico
 
 ---

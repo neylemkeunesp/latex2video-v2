@@ -1,70 +1,88 @@
-# ElevenLabs Integration for LaTeX2Video
+# Using ElevenLabs TTS with LaTeX2Video
 
-This document explains how to use the ElevenLabs Text-to-Speech (TTS) integration in the LaTeX2Video project.
+This guide explains how to use ElevenLabs Text-to-Speech (TTS) with the LaTeX2Video project.
 
-## Requirements
+## Prerequisites
 
-- ElevenLabs API key (sign up at [elevenlabs.io](https://elevenlabs.io))
-- elevenlabs Python package (version 1.57.0 or higher)
+1. An ElevenLabs account with API access
+2. Your ElevenLabs API key
+3. A voice ID from your ElevenLabs account
 
 ## Configuration
 
-To use ElevenLabs for audio narration, edit the `config/config.yaml` file:
+1. Open the `config/config.yaml` file
+2. Set the TTS provider to "elevenlabs":
+   ```yaml
+   tts:
+     provider: "elevenlabs"
+   ```
+3. Configure your ElevenLabs settings:
+   ```yaml
+   elevenlabs:
+     api_key: "your_api_key_here"
+     voice_id: "your_voice_id_here"
+     model_id: "eleven_multilingual_v2"  # Better for non-English languages
+   ```
 
-```yaml
-# TTS configuration
-tts:
-  provider: "elevenlabs"  # Change from "gtts" to "elevenlabs"
-  language: "pt"  # Still used for fallback to gTTS if needed
-  slow: false
+## Finding Your Voice ID
 
-# ElevenLabs configuration
-elevenlabs:
-  api_key: "your_api_key_here"  # Replace with your actual API key
-  voice_id: "4BGVHcW2xjlsh3CQ2d0i"  # Ney's voice ID (or use another voice ID)
-  model_id: "eleven_multilingual_v2"  # Better for Portuguese
-```
+1. Log in to your ElevenLabs account
+2. Go to the "Voice Library" section
+3. Click on the voice you want to use
+4. The voice ID is in the URL or in the voice details
 
-## Finding Voice IDs
+## Testing ElevenLabs TTS
 
-To find available voice IDs in your ElevenLabs account, you can run the included test script:
+You can test the ElevenLabs TTS integration using the provided test scripts:
 
-```bash
-python test_elevenlabs.py
-```
-
-This will list all available voices in your account along with their IDs. Choose the voice ID you prefer and update the `voice_id` field in your config.yaml file.
-
-## Testing ElevenLabs Audio Generation
-
-You can test the ElevenLabs audio generation with the provided test script:
+### Basic ElevenLabs Test
 
 ```bash
-python test_elevenlabs_audio.py
+python test_elevenlabs_tts.py
 ```
 
-This will generate a test audio file in the `output/audio` directory using the ElevenLabs API.
+This will generate a test audio file in the `output/elevenlabs_test` directory.
+
+### LaTeX Parser with ElevenLabs Test
+
+```bash
+python test_latex_parser_with_tts.py
+```
+
+This will parse the LaTeX presentation and generate audio for the first 5 slides.
+
+### LaTeX Parser with ElevenLabs and ChatGPT Formatting
+
+```bash
+python test_latex_parser_with_elevenlabs.py
+```
+
+This will parse the LaTeX presentation, format the slides for ChatGPT, and generate audio for the first 3 slides.
+
+To process a specific slide:
+
+```bash
+python test_latex_parser_with_elevenlabs.py --slide 24
+```
 
 ## Troubleshooting
 
 ### API Key Issues
 
-- Make sure your API key is valid and has sufficient credits
-- Check that the API key is correctly entered in the config.yaml file
+If you see errors related to authentication, verify your API key is correct in the config file.
 
 ### Voice ID Issues
 
-- If you get a "voice not found" error, run `test_elevenlabs.py` to get a list of valid voice IDs
-- Update the `voice_id` in your config.yaml file with a valid ID from your account
+If you see errors related to the voice ID, make sure the voice ID exists in your ElevenLabs account.
 
-### Package Version Issues
+### Model ID Issues
 
-The LaTeX2Video project requires elevenlabs version 1.57.0 or higher. If you encounter import errors, make sure you have the correct version installed:
+The default model is `eleven_multilingual_v2`, which works well for multiple languages. For English-only content, you can use `eleven_monolingual_v1` for potentially better results.
 
-```bash
-pip install elevenlabs>=1.57.0
-```
+## Performance Considerations
 
-### Fallback to gTTS
+ElevenLabs API calls may take longer than local TTS solutions like gTTS. The audio quality is significantly better, but processing time will be longer, especially for large presentations.
 
-If ElevenLabs fails for any reason, the system will automatically fall back to using Google Text-to-Speech (gTTS). You'll see a warning message in the logs if this happens.
+## Fallback to gTTS
+
+If ElevenLabs is not available or encounters an error, the system will automatically fall back to gTTS if it's installed.

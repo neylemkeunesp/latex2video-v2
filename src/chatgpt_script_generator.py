@@ -391,8 +391,15 @@ def format_slide_for_chatgpt(slide: Slide, all_slides: List[Slide] = None, slide
         # Replace in content
         content = content.replace(match.group(0), replacement)
     
+    # Clean up any "e{" prefix that might be in the content
+    content = re.sub(r'^e\{', '', content)
+    
     # Add the processed content
     formatted_content += content
+    
+    # Always include the slide title in the content
+    if slide.title not in content and slide.title != "Title Page" and slide.title != "Outline":
+        formatted_content += f"\n\n{slide.title}"
     
     # Add instructions for ChatGPT-4o
     formatted_content += "\n\n---\n\n"

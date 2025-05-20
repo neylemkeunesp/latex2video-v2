@@ -5,6 +5,8 @@
 - Slide anterior: "Exemplo"
 - Próximo slide: "Classes de Energia"
 
+[IMAGEM: espectro]
+
 Espectro de Radiação
 
 ---

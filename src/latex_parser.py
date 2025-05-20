@@ -76,10 +76,19 @@ def extract_frame_title(frame_content: str) -> str:
                 frame_title = line
                 break
 
+    # Clean up the title - remove any 'e{' prefix that might have been added
+    frame_title = re.sub(r'^e\{', '', frame_title)
+    
+    # Remove any remaining LaTeX commands from the title
+    frame_title = re.sub(r'\\[a-zA-Z@]+(\*|\[[^\]]*\])?\{(.*?)\}', r'\2', frame_title)
+    
+    # Remove any remaining braces
+    frame_title = re.sub(r'[\{\}]', '', frame_title)
+
     return frame_title
 
 def clean_latex_content(content: str) -> str:
-    """Removes comments and frametitle from LaTeX content."""
+    """Removes comments and frametitle from LaTeX content, while preserving mathematical formulas."""
     # Remove comments
     content = re.sub(r'%.*?\n', '\n', content)
 
@@ -93,14 +102,63 @@ def clean_latex_content(content: str) -> str:
     # This helps ensure items are on new lines and standardizes spacing after \item.
     content = re.sub(r'\\item\s*', '\n- ', content)
 
-    # Remove other common LaTeX commands (simplistic).
+    # Preserve mathematical content by temporarily replacing it
+    math_placeholders = {}
+    
+    # Extract and preserve display math ($$...$$)
+    display_math_pattern = re.compile(r'\$\$(.*?)\$\$', re.DOTALL)
+    for i, match in enumerate(display_math_pattern.finditer(content)):
+        placeholder = f"DISPLAY_MATH_{i}"
+        math_placeholders[placeholder] = f"FORMULA: {match.group(1).strip()}"
+        content = content.replace(match.group(0), placeholder)
+    
+    # Extract and preserve inline math ($...$)
+    inline_math_pattern = re.compile(r'\$(.*?)\$')
+    for i, match in enumerate(inline_math_pattern.finditer(content)):
+        placeholder = f"INLINE_MATH_{i}"
+        math_placeholders[placeholder] = f"FORMULA: {match.group(1).strip()}"
+        content = content.replace(match.group(0), placeholder)
+    
+    # Extract and preserve equation environments
+    equation_pattern = re.compile(r'\\begin\{equation\*?\}(.*?)\\end\{equation\*?\}', re.DOTALL)
+    for i, match in enumerate(equation_pattern.finditer(content)):
+        placeholder = f"EQUATION_{i}"
+        math_placeholders[placeholder] = f"FORMULA: {match.group(1).strip()}"
+        content = content.replace(match.group(0), placeholder)
+    
+    # Extract and preserve align environments
+    align_pattern = re.compile(r'\\begin\{align\*?\}(.*?)\\end\{align\*?\}', re.DOTALL)
+    for i, match in enumerate(align_pattern.finditer(content)):
+        placeholder = f"ALIGN_{i}"
+        align_content = match.group(1).strip()
+        # Split by newline or \\ to get individual equations
+        equations = re.split(r'\\\\|\n', align_content)
+        equations = [eq.strip() for eq in equations if eq.strip()]
+        
+        # Format each equation
+        formatted_equations = []
+        for eq in equations:
+            # Remove alignment markers
+            eq = re.sub(r'&', '', eq)
+            formatted_equations.append(f"FORMULA: {eq}")
+        
+        # Join with newlines
+        math_placeholders[placeholder] = "SISTEMA DE EQUAÇÕES:\n" + "\n".join(formatted_equations)
+        content = content.replace(match.group(0), placeholder)
+    
+    # Handle center environments (for images) before removing LaTeX commands
+    content = re.sub(r'\\begin\{center\}(.*?)\\end\{center\}', r'\1', content, flags=re.DOTALL)
+    
+    # Handle includegraphics before removing LaTeX commands
+    content = re.sub(r'\\includegraphics(\[.*?\])?\{(.*?)\}', r'[IMAGEM: \2]', content)
+    
+    # Remove other common LaTeX commands (simplistic) but preserve the content
     # This regex tries to match commands like \textbf{text} or \command[opt]{arg} or \command*
     # It's not perfect and might be too greedy or not greedy enough for some cases.
-    content = re.sub(r'\\[a-zA-Z@]+(\*|\[[^\]]*\])?(\{.*?\})?', '', content)
-
-    # Remove math mode delimiters $...$ and $$...$$
-    content = re.sub(r'\$\$(.*?)\$\$', r'\1', content, flags=re.DOTALL) # Display math
-    content = re.sub(r'\$(.*?)\$', r'\1', content) # Inline math
+    content = re.sub(r'\\([a-zA-Z@]+)(\*|\[[^\]]*\])?\{(.*?)\}', r'\3', content)
+    
+    # Remove commands without arguments
+    content = re.sub(r'\\[a-zA-Z@]+(\*|\[[^\]]*\])?(?!\{)', '', content)
     
     # Remove leftover empty braces that might result from command stripping
     content = re.sub(r'\{\s*\}', '', content) # Handles {} or { }
@@ -118,6 +176,10 @@ def clean_latex_content(content: str) -> str:
 
     # Remove leading braces and whitespace at the start of the content (fixes stray '{' at start)
     content = re.sub(r'^[{]+', '', content).lstrip()
+    
+    # Restore mathematical content
+    for placeholder, math_content in math_placeholders.items():
+        content = content.replace(placeholder, math_content)
 
     return content
 
@@ -308,18 +370,83 @@ def parse_latex_file(file_path: str) -> List[Slide]:
         processed_ranges.add(m.start())
 
     # Pattern for simple \frame{body} (everything inside braces is the body)
-    # Group 1: The entire body content of the frame
-    pat_simple_frame = re.compile(r'(?<!\\frametitle)(?<!\\begin\{frame\})\\frame\{(.*?)\}', re.DOTALL)
+    # We need to handle nested braces properly to capture the entire frame content
+    pat_simple_frame = re.compile(r'(?<!\\frametitle)(?<!\\begin\{frame\})\\frame\{', re.DOTALL)
     for m in pat_simple_frame.finditer(latex_content):
-        if m.start() in processed_ranges: continue
-        # This might capture things like \frame{\titlepage}.
-        # extract_frame_title and filtering logic will handle it.
-        frames_detailed.append({
-            'start': m.start(), 'end': m.end(),
-            'direct_title': None, 
-            'full_block_content': m.group(1).strip()
-        })
-        processed_ranges.add(m.start())
+        if m.start() in processed_ranges:
+            continue
+        
+        # Find the matching closing brace, accounting for nested braces
+        start_pos = m.end()  # Position after \frame{
+        brace_count = 1
+        end_pos = start_pos
+        
+        while end_pos < len(latex_content) and brace_count > 0:
+            if latex_content[end_pos] == '{':
+                brace_count += 1
+            elif latex_content[end_pos] == '}':
+                brace_count -= 1
+            end_pos += 1
+        
+        if brace_count == 0:  # Found matching closing brace
+            # Get the full content of the frame
+            frame_content = latex_content[start_pos:end_pos-1].strip()
+            
+            # Check if this is a frame with math content
+            if '$$' in frame_content:
+                # This is a frame with math content, make sure we capture it properly
+                logging.info(f"Found frame with math content at position {m.start()}")
+            
+            frames_detailed.append({
+                'start': m.start(), 'end': end_pos,
+                'direct_title': None, 
+                'full_block_content': frame_content
+            })
+            processed_ranges.add(m.start())
+        
+    # Additional pattern for \frame{\frametitle{title} content} format
+    # We need to handle nested braces properly
+    pat_frame_with_frametitle = re.compile(r'\\frame\{\\frametitle\{', re.DOTALL)
+    for m in pat_frame_with_frametitle.finditer(latex_content):
+        if m.start() in processed_ranges:
+            continue
+        
+        # Find the matching closing brace for the title
+        title_start = m.end()  # Position after \frame{\frametitle{
+        brace_count = 1
+        title_end = title_start
+        
+        while title_end < len(latex_content) and brace_count > 0:
+            if latex_content[title_end] == '{':
+                brace_count += 1
+            elif latex_content[title_end] == '}':
+                brace_count -= 1
+            title_end += 1
+        
+        if brace_count == 0:  # Found matching closing brace for title
+            title = latex_content[title_start:title_end-1].strip()
+            
+            # Now find the matching closing brace for the frame
+            content_start = title_end
+            brace_count = 1  # We're already inside one level of braces
+            content_end = content_start
+            
+            while content_end < len(latex_content) and brace_count > 0:
+                if latex_content[content_end] == '{':
+                    brace_count += 1
+                elif latex_content[content_end] == '}':
+                    brace_count -= 1
+                content_end += 1
+            
+            if brace_count == 0:  # Found matching closing brace for frame
+                content = latex_content[content_start:content_end-1].strip()
+                
+                frames_detailed.append({
+                    'start': m.start(), 'end': content_end,
+                    'direct_title': title,  # Title is from \frametitle{title}
+                    'full_block_content': content  # Content is everything after \frametitle{title}
+                })
+                processed_ranges.add(m.start())
         
     # Combine sections and frames, then sort by start position
     all_slide_elements = []

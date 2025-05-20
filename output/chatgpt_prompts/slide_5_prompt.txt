@@ -5,6 +5,8 @@
 - Slide anterior: "Mecânica Quântica"
 - Próximo slide: "Espectro de Radiação"
 
+[IMAGEM: niveisenergia]
+
 Exemplo
 
 ---

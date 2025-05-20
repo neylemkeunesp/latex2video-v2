@@ -5,6 +5,9 @@
 - Slide anterior: "Partícula em uma Caixa 3D"
 - Próximo slide: "Vibração"
 
+FORMULA: H=H_{trans}+H_{vib}+H_{rot}+H_{elet}
+FORMULA: \psi=\psi_{trans}\psi_{vib}\psi_{rot}\psi_{elet}
+
 Energia
 
 ---

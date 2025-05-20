@@ -6,6 +6,14 @@
 - Próximo slide: "Modelo de Einstein"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+Este argumento não é válido para modos vibracionais. Neste caso
+podemos mostrar que:
+FORMULA: q=(1-e^{-\beta h \nu})^{-1}
+FORMULA: \langle \epsilon \rangle =-\frac{1}{q}\left( \frac{\partial q}{\partial \beta}
+\right)=h\nu\left( \frac{e^{-\beta h \nu}}{1-e^{-\beta h \nu}}\right)
+FORMULA: C_v=3N\left( \frac{\partial \langle\epsilon\rangle}{\partial \beta}
+\right)=3Nk\left(\frac{h\nu}{kT}\right)^2\frac{e^{-h \nu/kT}}{(1-e^{-h\nu /kT})^2}
+
 Modelo de Einstein
 
 ---

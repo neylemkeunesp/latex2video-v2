@@ -5,7 +5,14 @@
 - Slide anterior: "Title Page"
 - Próximo slide: "Introdução"
 
-Outline
+[ATTENTION: This slide appears to have no content. It may be a transition slide or a slide meant for visual emphasis.]
+
+Previous slide title: "Title Page"
+Previous slide content summary: "Título da Apresentação: Gases e Sólidos
+Autor: Ney Lemke..."
+
+Next slide title: "Introdução"
+Next slide content summary: "Introdução..."
 
 ---
 

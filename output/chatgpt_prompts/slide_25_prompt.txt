@@ -6,6 +6,12 @@
 - Próximo slide: "Molécula diatômica"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+[IMAGEM: duasmassas]
+FORMULA: \epsilon_v=h\nu(v+\frac{1}{2})
+FORMULA: \nu=(1/2\pi)(k_s/\mu)^{(1/2)}
+FORMULA: v=0,1,2,\ldots
+FORMULA: \mu=\frac{m_1m_2}{m_1+m_2}
+
 Molécula diatômica
 
 ---

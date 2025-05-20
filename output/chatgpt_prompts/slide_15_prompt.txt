@@ -5,6 +5,10 @@
 - Slide anterior: "Poço de Potencial"
 - Próximo slide: "Translação"
 
+Níveis de Energia para o argônio. FORMULA: L=1 cm FORMULA: m=40 g molFORMULA: ^{-1}=0.040/6.02\times 10^{23} \mbox{atom mol}^{-1}.
+Neste caso temos que:
+FORMULA: \epsilon=n^2\frac{(6.626\times10^{-34}\mbox{Js})^2}{8 6.64\times 10^{-26}\mbox{kg} (10^ {-2} \mbox{m})^2}=n^2(8.27\times10^{-39}) \mbox{J}
+
 Exemplo
 
 ---

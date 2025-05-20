@@ -6,6 +6,8 @@
 - Próximo slide: "Poço de Potencial"
 - O próximo slide é uma continuação deste slide com o mesmo título.
 
+[IMAGEM: poco]
+
 Poço de Potencial
 
 ---
