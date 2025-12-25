@@ -23,7 +23,7 @@ print("[PRINT-MARKER] pyqt_latex2video.py loaded and running from:", os.path.abs
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QTabWidget, QLineEdit, QTextEdit, QFileDialog, QMessageBox, QSplitter, QGridLayout,
-    QFrame, QStatusBar, QAction, QScrollArea
+    QFrame, QStatusBar, QAction, QScrollArea, QComboBox
 )
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QSettings, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
@@ -33,7 +33,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src.latex_parser import parse_latex_file, Slide
 from src.chatgpt_script_generator import format_slide_for_chatgpt, clean_chatgpt_response
-from src.openai_script_generator import initialize_openai_client, generate_script_with_openai
+from src.automated_video_generation import initialize_llm_client, generate_script_with_llm
 from src.image_generator import generate_slide_images
 from src.audio_generator import generate_all_audio
 from src.simple_video_assembler import assemble_video, natural_sort # Import natural_sort
@@ -288,6 +288,20 @@ class LaTeX2VideoGUI(QMainWindow):
         output_browse_button.clicked.connect(self.browse_output_dir)
         top_layout.addWidget(output_browse_button, 2, 2)
         
+        # LLM Provider Selection
+        top_layout.addWidget(QLabel("LLM Provider:"), 3, 0)
+        self.provider_combo = QComboBox()
+        self.provider_combo.addItems(["OpenAI", "Gemini"])
+        self.provider_combo.currentTextChanged.connect(self.on_provider_changed)
+        top_layout.addWidget(self.provider_combo, 3, 1)
+        
+        # LLM Model Input
+        top_layout.addWidget(QLabel("LLM Model:"), 4, 0)
+        self.model_edit = QLineEdit()
+        self.model_edit.setPlaceholderText("e.g. gpt-4o or gemini-3.0-flash")
+        self.model_edit.textChanged.connect(self.on_model_changed)
+        top_layout.addWidget(self.model_edit, 4, 1)
+        
         top_layout.setColumnStretch(1, 1)
         main_layout.addWidget(top_frame)
         
@@ -484,6 +498,38 @@ class LaTeX2VideoGUI(QMainWindow):
                 os.makedirs(os.path.join(dir_path, sub_dir), exist_ok=True)
             self.update_status(f"Output directory selected: {dir_path}")
 
+    def on_provider_changed(self, text):
+        """Handle LLM provider change"""
+        provider = text.lower()
+        self.config['llm_provider'] = provider
+        self.update_model_field_from_config()
+        self.update_status(f"LLM Provider set to {text}")
+
+    def on_model_changed(self, text):
+        """Handle LLM model change"""
+        provider = self.config.get('llm_provider', 'openai')
+        if provider == 'openai':
+            if 'openai' not in self.config: self.config['openai'] = {}
+            self.config['openai']['model'] = text
+        else: # Gemini
+            if 'gemini' not in self.config: self.config['gemini'] = {}
+            self.config['gemini']['model'] = text
+
+    def update_model_field_from_config(self):
+        """Update model field based on current provider and config"""
+        provider = self.config.get('llm_provider', 'openai')
+        if provider == 'openai':
+            model = self.config.get('openai', {}).get('model', 'gpt-4o')
+        elif provider == 'gemini':
+            model = self.config.get('gemini', {}).get('model', 'gemini-3.0-flash')
+        else:
+            model = ""
+        
+        # Block signals to prevent feedback loop
+        self.model_edit.blockSignals(True)
+        self.model_edit.setText(model)
+        self.model_edit.blockSignals(False)
+
     def load_config(self):
         config_path = self.config_file_path
         if os.path.exists(config_path):
@@ -495,6 +541,15 @@ class LaTeX2VideoGUI(QMainWindow):
                 os.makedirs(self.output_dir, exist_ok=True)
                 for sub_dir in ['slides', 'audio', 'temp_pdf', 'chatgpt_prompts', 'chatgpt_responses']:
                     os.makedirs(os.path.join(self.output_dir, sub_dir), exist_ok=True)
+                
+                # Update UI elements from config
+                provider = self.config.get('llm_provider', 'openai').title() # Capitalize for combo box
+                index = self.provider_combo.findText(provider)
+                if index >= 0:
+                    self.provider_combo.setCurrentIndex(index)
+                
+                self.update_model_field_from_config()
+                
                 return True
             except Exception as e:
                 logging.error(f"Error loading config: {e}")
@@ -573,7 +628,33 @@ class LaTeX2VideoGUI(QMainWindow):
                 formatted_content = format_slide_for_chatgpt(slide, self.slides, i)
                 prompts.append(formatted_content)
                 logging.info(f"Generating script for slide {i+1}/{len(self.slides)}")
-                script = generate_script_with_openai(client, formatted_content, self.config)
+                # Construct prompt data dictionary
+                prompt_data = {
+                    "prompt": formatted_content,
+                    "title": slide.title,
+                    "slide_number": i + 1
+                }
+                
+                # Try to find the image for this slide
+                # We need to look for slide_{i+1:03d}.png or slide_{i+1}.png
+                slide_number = i + 1
+                slides_dir = os.path.join(self.output_dir, 'slides')
+                image_path = None
+                
+                if os.path.exists(slides_dir):
+                    for ext in ['png', 'jpg', 'jpeg']:
+                        for image_name_format in [f'slide_{slide_number:03d}.{ext}', f'slide_{slide_number}.{ext}']:
+                            possible_path = os.path.join(slides_dir, image_name_format)
+                            if os.path.exists(possible_path):
+                                image_path = possible_path
+                                break
+                        if image_path: break
+                
+                if image_path:
+                    logging.info(f"Attaching image to prompt: {image_path}")
+                    prompt_data["image_path"] = image_path
+                
+                script = generate_script_with_llm(client, prompt_data, self.config)
                 if script:
                     cleaned_script = clean_chatgpt_response(script)
                     narrations.append(cleaned_script)
@@ -744,10 +825,10 @@ class LaTeX2VideoGUI(QMainWindow):
     def generate_scripts(self):
         if not self.slides: QMessageBox.critical(self, "Error", "No slides available. Please parse a LaTeX file first."); return
         if not self.load_config(): QMessageBox.critical(self, "Error", "Failed to load configuration."); return
-        try: client = initialize_openai_client(self.config)
-        except Exception as e: QMessageBox.critical(self, "Error", f"Failed to initialize OpenAI client: {e}"); return
-        if not client: QMessageBox.critical(self, "Error", "Failed to initialize OpenAI client. Check API key."); return
-        self.update_status("Generating narration scripts with OpenAI API...")
+        try: client = initialize_llm_client(self.config)
+        except Exception as e: QMessageBox.critical(self, "Error", f"Failed to initialize LLM client: {e}"); return
+        if not client: QMessageBox.critical(self, "Error", "Failed to initialize LLM client. Check API key and provider."); return
+        self.update_status("Generating narration scripts with configured LLM...")
         thread = QThread(); worker = Worker(self._generate_scripts_worker, client); worker.moveToThread(thread)
         self._current_scripts_thread = thread; self._current_scripts_worker = worker
         thread.started.connect(worker.run); worker.finished.connect(thread.quit)

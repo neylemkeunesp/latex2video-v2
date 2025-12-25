@@ -7,6 +7,10 @@ import argparse
 from typing import List, Dict
 import time
 from openai import OpenAI
+import google.generativeai as genai
+import PIL.Image
+import base64
+import mimetypes
 
 # Add the parent directory to the path so we can import from src
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -39,28 +43,45 @@ def load_config(config_path: str) -> dict:
         logging.error(f"An unexpected error occurred loading config: {e}")
         return {}
 
-def initialize_openai_client(config: Dict) -> OpenAI:
-    """Initialize the OpenAI client with API key from config."""
-    openai_config = config.get('openai', {})
-    api_key = openai_config.get('api_key')
+def initialize_llm_client(config: Dict):
+    """Initialize the LLM client based on configuration."""
+    provider = config.get('llm_provider', 'openai').lower()
+    logging.info(f"Initializing LLM client for provider: {provider}")
     
-    if not api_key:
-        logging.error("OpenAI API key not found in config. Please add your API key to config/config.yaml")
-        return None
-    
-    try:
-        client = OpenAI(api_key=api_key)
-        return client
-    except Exception as e:
-        logging.error(f"Error initializing OpenAI client: {e}")
-        return None
+    if provider == 'gemini':
+        gemini_config = config.get('gemini', {})
+        api_key = gemini_config.get('api_key')
+        if not api_key:
+            logging.error("Gemini API key not found in config. Please add it to config/config.yaml")
+            return None
+        
+        try:
+            genai.configure(api_key=api_key)
+            # For Gemini, the 'client' can be the configured module or a model object
+            # We'll return the module for now and instantiate the model in the generation function
+            return genai
+        except Exception as e:
+            logging.error(f"Error initializing Gemini: {e}")
+            return None
+            
+    else: # Default to OpenAI
+        openai_config = config.get('openai', {})
+        api_key = openai_config.get('api_key')
+        
+        if not api_key:
+            logging.error("OpenAI API key not found in config. Please add your API key to config/config.yaml")
+            return None
+        
+        try:
+            client = OpenAI(api_key=api_key)
+            return client
+        except Exception as e:
+            logging.error(f"Error initializing OpenAI client: {e}")
+            return None
 
-def generate_script_with_openai(client: OpenAI, prompt_data: Dict, config: Dict) -> str:
-    """Generate a script for a slide using the OpenAI API."""
-    openai_config = config.get('openai', {})
-    model = openai_config.get('model', 'gpt-4o')
-    temperature = openai_config.get('temperature', 0.7)
-    max_tokens = openai_config.get('max_tokens', 1000)
+def generate_script_with_llm(client, prompt_data: Dict, config: Dict) -> str:
+    """Generate a script for a slide using the configured LLM provider."""
+    provider = config.get('llm_provider', 'openai').lower()
     
     prompt = prompt_data["prompt"]
     slide_title = prompt_data["title"]
@@ -69,38 +90,95 @@ def generate_script_with_openai(client: OpenAI, prompt_data: Dict, config: Dict)
     # Check if this is an empty slide that needs a transition script
     is_empty_slide = "[ATTENTION: This slide appears to have no content" in prompt
     
-    # Adjust system message based on slide content
+    prompt_data_image_path = prompt_data.get("image_path")
+    
+    # Common system message
     system_message = "You are an expert educational content creator who specializes in creating clear, concise narration scripts for educational videos. You explain complex concepts in an accessible way, with special attention to mathematical formulas. DO NOT include any markers like '[Início do Script de Narração]' or '[Fim do Script de Narração]' in your response. Just provide the narration script directly."
     
     if is_empty_slide:
-        # Add specific instructions for empty slides
         system_message += " For this empty slide, create a brief transition (2-3 sentences) that connects the previous topic to the next one. Do not invent content that isn't there, just create a smooth transition between concepts."
     
+    if prompt_data_image_path and os.path.exists(prompt_data_image_path):
+        logging.info(f"Generating script with image context: {prompt_data_image_path}")
+        system_message += " An image of the slide is provided. Use the visual information in the image to enhance your narration, describing diagrams, graphs, or visual structures where appropriate."
+
     try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": system_message},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=temperature,
-            max_tokens=max_tokens
-        )
-        
-        script = response.choices[0].message.content.strip()
-        
-        # For empty slides, ensure we have at least some content
-        if is_empty_slide and (not script or len(script) < 10):
-            logging.warning(f"Generated script for empty slide {slide_number} was too short. Using default transition.")
-            script = f"Agora que vimos {slide_title}, vamos avançar para o próximo conceito. Esta transição nos ajuda a conectar as ideias e manter o fluxo da apresentação."
-        
-        return script
+        if provider == 'gemini':
+            gemini_config = config.get('gemini', {})
+            model_name = gemini_config.get('model', 'gemini-3.0-flash')
+            # Gemini models might need different config handling
+            generation_config = {
+                "temperature": gemini_config.get('temperature', 0.7),
+                "max_output_tokens": gemini_config.get('max_tokens', 1000),
+            }
+            
+            model = client.GenerativeModel(model_name)
+            
+            full_prompt = f"{system_message}\n\nTask:\n{prompt}"
+            
+            content_parts = [full_prompt]
+            
+            if prompt_data_image_path and os.path.exists(prompt_data_image_path):
+                try:
+                    image = PIL.Image.open(prompt_data_image_path)
+                    content_parts.append(image)
+                except Exception as e:
+                    logging.error(f"Error loading image for Gemini: {e}")
+            
+            response = model.generate_content(
+                content_parts,
+                generation_config=generation_config
+            )
+            
+            return response.text.strip()
+            
+        else: # OpenAI
+            openai_config = config.get('openai', {})
+            model = openai_config.get('model', 'gpt-4o')
+            temperature = openai_config.get('temperature', 0.7)
+            max_tokens = openai_config.get('max_tokens', 1000)
+            
+            user_content = [{"type": "text", "text": prompt}]
+            
+            if prompt_data_image_path and os.path.exists(prompt_data_image_path):
+                try:
+                    with open(prompt_data_image_path, "rb") as image_file:
+                        encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                    
+                    mime_type, _ = mimetypes.guess_type(prompt_data_image_path)
+                    if not mime_type:
+                        mime_type = "image/png" # Default
+                        
+                    user_content.append({
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:{mime_type};base64,{encoded_image}"
+                        }
+                    })
+                except Exception as e:
+                    logging.error(f"Error encoding image for OpenAI: {e}")
+            
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": user_content}
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            return response.choices[0].message.content.strip()
+            
     except Exception as e:
-        logging.error(f"Error generating script with OpenAI: {e}")
+        logging.error(f"Error generating script with {provider}: {e}")
+        # Build a fallback for empty slides if generation fails
+        if is_empty_slide:
+             logging.warning(f"Generation failed for empty slide {slide_number}. Using default transition.")
+             return f"Agora que vimos {slide_title}, vamos avançar para o próximo conceito. Esta transição nos ajuda a conectar as ideias e manter o fluxo da apresentação."
         return ""
 
-def generate_all_scripts(slides: List[Slide], client: OpenAI, config: Dict) -> List[str]:
-    """Generate scripts for all slides using the OpenAI API."""
+def generate_all_scripts(slides: List[Slide], client: any, config: Dict) -> List[str]:
+    """Generate scripts for all slides using the configured LLM."""
     scripts = []
     
     # Create directory for prompts
@@ -138,8 +216,8 @@ def generate_all_scripts(slides: List[Slide], client: OpenAI, config: Dict) -> L
         slide_title = prompt["title"]
         logging.info(f"Generating script for slide {slide_number}/{len(prompts)}: {slide_title}")
         
-        # Generate script with OpenAI - pass the prompt data dictionary
-        raw_script = generate_script_with_openai(client, prompt, config)
+        # Generate script with LLM - pass the prompt data dictionary
+        raw_script = generate_script_with_llm(client, prompt, config)
         
         if raw_script:
             # Clean up the response to remove any ChatGPT-specific formatting or markers
@@ -395,11 +473,11 @@ def main():
     os.makedirs(temp_pdf_dir, exist_ok=True)
     os.makedirs(scripts_dir, exist_ok=True)
     
-    # --- 2. Initialize OpenAI Client ---
-    logging.info("Step 2: Initializing OpenAI client...")
-    client = initialize_openai_client(config)
+    # --- 2. Initialize LLM Client ---
+    logging.info("Step 2: Initializing LLM client...")
+    client = initialize_llm_client(config)
     if not client:
-        logging.error("Failed to initialize OpenAI client. Exiting.")
+        logging.error("Failed to initialize LLM client. Exiting.")
         return
     
     # --- 3. Parse LaTeX File ---
@@ -428,8 +506,8 @@ def main():
     content_image_paths = image_paths
     logging.info(f"Successfully prepared {len(content_image_paths)} images for {len(slides)} slides.")
     
-    # --- 5. Generate Scripts with OpenAI ---
-    logging.info("Step 5: Generating scripts with OpenAI...")
+    # --- 5. Generate Scripts with LLM ---
+    logging.info("Step 5: Generating scripts with configured LLM...")
     scripts = generate_all_scripts(slides, client, config)
     
     # Save scripts if requested
