@@ -16,7 +16,7 @@ import mimetypes
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.latex_parser import parse_latex_file, Slide
-from src.chatgpt_script_generator import format_slide_for_chatgpt, clean_chatgpt_response
+from src.chatgpt_script_generator import format_slide_for_llm, clean_llm_response
 from src.image_generator import generate_slide_images
 from src.audio_generator import generate_all_audio
 from src.simple_video_assembler import assemble_video
@@ -196,8 +196,8 @@ def generate_all_scripts(slides: List[Slide], client: any, config: Dict) -> List
         # Generate prompts directly from slides
         prompts = []
         for i, slide in enumerate(slides):
-            # Format the slide content for ChatGPT
-            prompt = format_slide_for_chatgpt(slide, slides, i)
+            # Format the slide content for LLM
+            prompt = format_slide_for_llm(slide, slides, i)
             prompts.append({
                 "slide_number": i+1,
                 "title": slide.title,
@@ -220,8 +220,8 @@ def generate_all_scripts(slides: List[Slide], client: any, config: Dict) -> List
         raw_script = generate_script_with_llm(client, prompt, config)
         
         if raw_script:
-            # Clean up the response to remove any ChatGPT-specific formatting or markers
-            cleaned_script = clean_chatgpt_response(raw_script)
+            # Clean up the response to remove any LLM-specific formatting or markers
+            cleaned_script = clean_llm_response(raw_script)
             
             if cleaned_script:
                 scripts.append(cleaned_script)

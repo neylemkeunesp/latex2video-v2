@@ -32,7 +32,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src.latex_parser import parse_latex_file, Slide
-from src.chatgpt_script_generator import format_slide_for_chatgpt, clean_chatgpt_response
+from src.chatgpt_script_generator import format_slide_for_llm, clean_llm_response
 from src.automated_video_generation import initialize_llm_client, generate_script_with_llm
 from src.image_generator import generate_slide_images
 from src.audio_generator import generate_all_audio
@@ -198,6 +198,10 @@ class LaTeX2VideoGUI(QMainWindow):
         self.threads = []
         self.dark_mode = False
         
+        # Default Models
+        self.openai_models = ["gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo"]
+        self.gemini_models = ["gemini-3.0-flash", "gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.0-pro"]
+        
         # Set default paths
         script_dir = os.path.dirname(os.path.abspath(__file__))
         self.config_file_path = os.path.join(script_dir, "config", "config.yaml")
@@ -225,6 +229,7 @@ class LaTeX2VideoGUI(QMainWindow):
         
         # Initialize status
         self.update_status("Ready")
+
 
         # Pre-initialize GTTSProvider in main thread if gtts is the provider
         if self.config.get('tts', {}).get('provider', '').lower() == 'gtts':
@@ -295,12 +300,13 @@ class LaTeX2VideoGUI(QMainWindow):
         self.provider_combo.currentTextChanged.connect(self.on_provider_changed)
         top_layout.addWidget(self.provider_combo, 3, 1)
         
-        # LLM Model Input
+        # LLM Model Input (Editable ComboBox)
         top_layout.addWidget(QLabel("LLM Model:"), 4, 0)
-        self.model_edit = QLineEdit()
-        self.model_edit.setPlaceholderText("e.g. gpt-4o or gemini-3.0-flash")
-        self.model_edit.textChanged.connect(self.on_model_changed)
-        top_layout.addWidget(self.model_edit, 4, 1)
+        self.model_combo = QComboBox()
+        self.model_combo.setEditable(True)
+        self.model_combo.setPlaceholderText("Select or type model name...")
+        self.model_combo.currentTextChanged.connect(self.on_model_changed)
+        top_layout.addWidget(self.model_combo, 4, 1)
         
         top_layout.setColumnStretch(1, 1)
         main_layout.addWidget(top_frame)
@@ -502,6 +508,16 @@ class LaTeX2VideoGUI(QMainWindow):
         """Handle LLM provider change"""
         provider = text.lower()
         self.config['llm_provider'] = provider
+        
+        # Update model list based on provider
+        self.model_combo.blockSignals(True)
+        self.model_combo.clear()
+        if provider == 'openai':
+            self.model_combo.addItems(self.openai_models)
+        elif provider == 'gemini':
+            self.model_combo.addItems(self.gemini_models)
+        self.model_combo.blockSignals(False)
+        
         self.update_model_field_from_config()
         self.update_status(f"LLM Provider set to {text}")
 
@@ -518,6 +534,16 @@ class LaTeX2VideoGUI(QMainWindow):
     def update_model_field_from_config(self):
         """Update model field based on current provider and config"""
         provider = self.config.get('llm_provider', 'openai')
+        
+        # Populate if empty (first run) or ensure correct list is shown
+        if self.model_combo.count() == 0:
+             self.model_combo.blockSignals(True)
+             if provider == 'openai':
+                 self.model_combo.addItems(self.openai_models)
+             elif provider == 'gemini':
+                 self.model_combo.addItems(self.gemini_models)
+             self.model_combo.blockSignals(False)
+
         if provider == 'openai':
             model = self.config.get('openai', {}).get('model', 'gpt-4o')
         elif provider == 'gemini':
@@ -526,9 +552,9 @@ class LaTeX2VideoGUI(QMainWindow):
             model = ""
         
         # Block signals to prevent feedback loop
-        self.model_edit.blockSignals(True)
-        self.model_edit.setText(model)
-        self.model_edit.blockSignals(False)
+        self.model_combo.blockSignals(True)
+        self.model_combo.setEditText(model)
+        self.model_combo.blockSignals(False)
 
     def load_config(self):
         config_path = self.config_file_path
@@ -580,7 +606,7 @@ class LaTeX2VideoGUI(QMainWindow):
             if self.slides: # Ensure slides were actually parsed
                 logging.info(f"Generating prompts for {len(self.slides)} slides immediately after parsing.")
                 for i, slide_obj in enumerate(self.slides):
-                    prompt_content = format_slide_for_chatgpt(slide_obj, self.slides, i)
+                    prompt_content = format_slide_for_llm(slide_obj, self.slides, i)
                     temp_prompts.append(prompt_content)
                 self.prompts = temp_prompts
                 logging.info(f"Successfully generated {len(self.prompts)} prompts and stored them.")
@@ -625,7 +651,7 @@ class LaTeX2VideoGUI(QMainWindow):
             narrations = []
             prompts = []
             for i, slide in enumerate(self.slides):
-                formatted_content = format_slide_for_chatgpt(slide, self.slides, i)
+                formatted_content = format_slide_for_llm(slide, self.slides, i)
                 prompts.append(formatted_content)
                 logging.info(f"Generating script for slide {i+1}/{len(self.slides)}")
                 # Construct prompt data dictionary
@@ -656,7 +682,7 @@ class LaTeX2VideoGUI(QMainWindow):
                 
                 script = generate_script_with_llm(client, prompt_data, self.config)
                 if script:
-                    cleaned_script = clean_chatgpt_response(script)
+                    cleaned_script = clean_llm_response(script)
                     narrations.append(cleaned_script)
                 else:
                     narrations.append(f"Script for slide {i+1} could not be generated.")

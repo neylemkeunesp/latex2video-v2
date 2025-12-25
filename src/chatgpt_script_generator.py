@@ -11,9 +11,9 @@ from src.latex_parser import parse_latex_file, Slide
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def clean_chatgpt_response(response: str) -> str:
+def clean_llm_response(response: str) -> str:
     """
-    Clean up ChatGPT response to ensure it doesn't contain any markup or unwanted text.
+    Clean up LLM response to ensure it doesn't contain any markup or unwanted text.
     Also converts LaTeX elements to spoken Portuguese, e.g. \frac{a}{b} -> "a dividido por b",
     letras gregas para o nome em português, etc.
     """
@@ -226,9 +226,9 @@ def clean_chatgpt_response(response: str) -> str:
 
     return response
 
-def format_slide_for_chatgpt(slide: Slide, all_slides: List[Slide] = None, slide_index: int = None) -> str:
+def format_slide_for_llm(slide: Slide, all_slides: List[Slide] = None, slide_index: int = None) -> str:
     """
-    Format a slide's content for sending to ChatGPT-4o.
+    Format a slide's content for sending to the LLM.
     Includes special handling for mathematical formulas and title pages.
     
     Args:
@@ -236,7 +236,7 @@ def format_slide_for_chatgpt(slide: Slide, all_slides: List[Slide] = None, slide
         all_slides: Optional list of all slides in the presentation
         slide_index: Optional index of the current slide in the all_slides list
     """
-    logging.info(f"Formatting slide for ChatGPT: {slide.title} (Frame {slide.frame_number})")
+    logging.info(f"Formatting slide for LLM: {slide.title} (Frame {slide.frame_number})")
     logging.info(f"  - All slides provided: {all_slides is not None}")
     logging.info(f"  - Slide index provided: {slide_index is not None}")
     
@@ -401,7 +401,7 @@ def format_slide_for_chatgpt(slide: Slide, all_slides: List[Slide] = None, slide
     if slide.title not in content and slide.title != "Title Page" and slide.title != "Outline":
         formatted_content += f"\n\n{slide.title}"
     
-    # Add instructions for ChatGPT-4o
+    # Add instructions for LLM
     formatted_content += "\n\n---\n\n"
     formatted_content += "Por favor, crie um script de narração para este slide que explique o conteúdo de forma clara e concisa. "
     
