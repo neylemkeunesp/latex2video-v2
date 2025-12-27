@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.5)  19 MAY 2025 21:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.5)  25 DEC 2025 09:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -773,14 +773,6 @@ line 36.
 Package pgf Warning: Missing width for image "computerworkingimage" ("beamer-co
 mputerred") in draft mode. Using 1cm instead on input line 36.
 
-
-Package pgf Warning: File "logounesp" not found when defining image "logo". Tri
-ed all extensions in ".pdf:.jpg:.jpeg:.png:" on input line 37.
-
-
-Package pgf Warning: Missing width for image "logo" ("logounesp") in draft mode
-. Using 1cm instead on input line 37.
-
 LaTeX Font Info:    Trying to load font information for OT1+phv on input line 6
 9.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
@@ -978,7 +970,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./presentation.toc)
+ <./logounesp.png (PNG copy)>] (./presentation.toc)
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1021,20 +1013,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [4
 
 ]
-
-! LaTeX Error: File `niveisenergia' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.95 }
-      
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<niveisenergia.png, id=527, 461.725pt x 443.6575pt>
+File: niveisenergia.png Graphic file (type png)
+<use niveisenergia.png>
+Package pdftex.def Info: niveisenergia.png  used on input line 95.
+(pdftex.def)             Requested size: 184.68672pt x 177.45984pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1043,21 +1026,12 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [5
 
-]
-
-! LaTeX Error: File `espectro' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.102 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+ <./niveisenergia.png>]
+<espectro.png, id=612, 939.51pt x 354.32375pt>
+File: espectro.png Graphic file (type png)
+<use espectro.png>
+Package pdftex.def Info: espectro.png  used on input line 102.
+(pdftex.def)             Requested size: 281.85518pt x 106.29794pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1066,7 +1040,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [6
 
-]
+ <./espectro.png>]
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1099,20 +1073,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [10
 
 ]
-
-! LaTeX Error: File `poco' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.143 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<poco.png, id=1033, 263.98625pt x 265.99374pt>
+File: poco.png Graphic file (type png)
+<use poco.png>
+Package pdftex.def Info: poco.png  used on input line 143.
+(pdftex.def)             Requested size: 131.9928pt x 132.99654pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1121,7 +1086,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [11
 
-]
+ <./poco.png>]
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1138,20 +1103,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [13
 
 ]
-
-! LaTeX Error: File `psicaixa' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.170 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<psicaixa.png, id=1282, 899.36pt x 432.61626pt>
+File: psicaixa.png Graphic file (type png)
+<use psicaixa.png>
+Package pdftex.def Info: psicaixa.png  used on input line 170.
+(pdftex.def)             Requested size: 269.81007pt x 129.78587pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1160,7 +1116,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [14
 
-]
+ <./psicaixa.png>]
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1237,20 +1193,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [23
 
 ]
-
-! LaTeX Error: File `oscilador' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.269 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<oscilador.png, id=2119, 360.34625pt x 303.1325pt>
+File: oscilador.png Graphic file (type png)
+<use oscilador.png>
+Package pdftex.def Info: oscilador.png  used on input line 269.
+(pdftex.def)             Requested size: 108.1047pt x 90.94044pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1259,21 +1206,12 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [24
 
-]
-
-! LaTeX Error: File `duasmassas' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.283 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+ <./oscilador.png>]
+<duasmassas.png, id=2202, 270.00874pt x 179.67125pt>
+File: duasmassas.png Graphic file (type png)
+<use duasmassas.png>
+Package pdftex.def Info: duasmassas.png  used on input line 283.
+(pdftex.def)             Requested size: 81.00323pt x 53.90178pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1282,7 +1220,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [25
 
-]
+ <./duasmassas.png>]
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1299,20 +1237,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [27
 
 ]
-
-! LaTeX Error: File `rotor' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.303 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<rotor.png, id=2457, 223.83624pt x 277.035pt>
+File: rotor.png Graphic file (type png)
+<use rotor.png>
+Package pdftex.def Info: rotor.png  used on input line 303.
+(pdftex.def)             Requested size: 67.15138pt x 83.11113pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1321,7 +1250,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [28
 
-]
+ <./rotor.png>]
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
 ][][][][] [][][][] [][][][][] [][][][][][][][][]  
@@ -1458,20 +1387,11 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 [45
 
 ]
-
-! LaTeX Error: File `einstein1' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.486 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<einstein1.png, id=3958, 238.8925pt x 227.85126pt>
+File: einstein1.png Graphic file (type png)
+<use einstein1.png>
+Package pdftex.def Info: einstein1.png  used on input line 486.
+(pdftex.def)             Requested size: 119.44595pt x 113.92534pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1480,20 +1400,15 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [46
 
-]
+ <./einstein1.png>]
+<einstein2.png, id=4041, 502.87875pt x 414.54875pt>
+File: einstein2.png Graphic file (type png)
+<use einstein2.png>
+Package pdftex.def Info: einstein2.png  used on input line 495.
+(pdftex.def)             Requested size: 251.43875pt x 207.27386pt.
 
-! LaTeX Error: File `einstein2' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.495 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+Overfull \vbox (3.75504pt too high) detected at line 495
+ []
 
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
@@ -1503,21 +1418,12 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [47
 
-]
-
-! LaTeX Error: File `einstein3' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.502 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+ <./einstein2.png>]
+<einstein3.png, id=4124, 470.75874pt x 353.32pt>
+File: einstein3.png Graphic file (type png)
+<use einstein3.png>
+Package pdftex.def Info: einstein3.png  used on input line 502.
+(pdftex.def)             Requested size: 235.3788pt x 176.65956pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1526,21 +1432,12 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [48
 
-]
-
-! LaTeX Error: File `einstein4' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.509 }
-       
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+ <./einstein3.png>]
+<einstein4.png, id=4206, 828.09375pt x 790.955pt>
+File: einstein4.png Graphic file (type png)
+<use einstein4.png>
+Package pdftex.def Info: einstein4.png  used on input line 509.
+(pdftex.def)             Requested size: 165.61581pt x 158.1882pt.
 
 Overfull \hbox (49.51295pt too wide) has occurred while \output is active
   [] [][] [][][][][][] [][][][][][][][][] [][][][][][][][] [][][][][] [][][][][
@@ -1549,7 +1446,7 @@ Overfull \hbox (49.51295pt too wide) has occurred while \output is active
 
 [49
 
-]
+ <./einstein4.png>]
 \tf@nav=\write6
 \openout6 = `presentation.nav'.
 
@@ -1564,10 +1461,10 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: 635F58A0CA59EB94B1CDF36454126137;1004.
  ) 
 Here is how much of TeX's memory you used:
- 24208 strings out of 478287
- 474689 string characters out of 5849289
- 780719 words of memory out of 5000000
- 41747 multiletter control sequences out of 15000+600000
+ 23978 strings out of 478287
+ 470441 string characters out of 5849289
+ 780057 words of memory out of 5000000
+ 41527 multiletter control sequences out of 15000+600000
  492824 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,20n,122p,426b,793s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1581,10 +1478,10 @@ amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.
 pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on presentation.pdf (49 pages, 319329 bytes).
+Output written on presentation.pdf (49 pages, 917539 bytes).
 PDF statistics:
- 4346 PDF objects out of 5155 (max. 8388607)
- 4156 compressed objects within 42 object streams
+ 4361 PDF objects out of 5155 (max. 8388607)
+ 4157 compressed objects within 42 object streams
  108 named destinations out of 1000 (max. 500000)
- 199 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 259 words of extra memory for PDF output out of 10000 (max. 10000000)
 
