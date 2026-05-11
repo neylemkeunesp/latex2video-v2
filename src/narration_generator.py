@@ -2,7 +2,11 @@ import re
 import logging
 from typing import List, Dict
 from .latex_parser import Slide  # Assuming latex_parser.py is in the same directory
-import yaml
+
+try:
+    import yaml  # Optional dependency used only in the CLI/test helpers
+except Exception:  # pragma: no cover - yaml is optional
+    yaml = None
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -284,12 +288,15 @@ if __name__ == '__main__':
     # Example usage:
     from latex_parser import parse_latex_file # Run from parent directory or adjust import
 
-    # Load config first to get narration settings
-    try:
-        with open('../config/config.yaml', 'r') as f:
-            cfg = yaml.safe_load(f)
-    except Exception as e:
-        print(f"Error loading config: {e}")
+    # Load config first to get narration settings if PyYAML is available
+    if yaml is not None:
+        try:
+            with open('../config/config.yaml', 'r') as f:
+                cfg = yaml.safe_load(f)
+        except Exception as e:
+            print(f"Error loading config: {e}")
+            cfg = {}
+    else:
         cfg = {}
 
     sample_latex_file = '../assets/presentation.tex'
